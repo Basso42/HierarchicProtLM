@@ -2,7 +2,8 @@ from torch import nn
 from functools import partial
 import torch
 import transformers.models.convbert as c_bert
-from utils import FocalLoss
+from ankh.utils import FocalLoss
+
 
 
 class GlobalMaxPooling1D(nn.Module):

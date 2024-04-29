@@ -1,7 +1,7 @@
 from torch import nn
 from torch.nn import functional as F
 from transformers.modeling_outputs import TokenClassifierOutput
-from ankh.models import layers
+from ankh import layers
 
 
 class ConvBertForMultiLabelClassification(layers.BaseModule):
@@ -16,7 +16,8 @@ class ConvBertForMultiLabelClassification(layers.BaseModule):
         kernel_size: int = 7,
         dropout: float = 0.2,
         pooling: str = 'max',
-        loss: str = 'BCE'
+        loss: str = 'BCE',
+        weights  = None#tensor
     ):
         super(ConvBertForMultiLabelClassification, self).__init__(
             input_dim=input_dim,
@@ -45,6 +46,7 @@ class ConvBertForMultiLabelClassification(layers.BaseModule):
         self.model_type = "Transformer"
         self.num_labels = num_tokens
         self.decoder = nn.Linear(input_dim, num_tokens)
+        self.weights = weights
         self.init_weights()
 
     def init_weights(self):
@@ -57,8 +59,8 @@ class ConvBertForMultiLabelClassification(layers.BaseModule):
             loss = F.binary_cross_entropy_with_logits(
                 logits.view(-1, self.num_labels), labels.view(-1, self.num_labels)
             )
-        elif: labels is not None and loss == 'focal':
-            loss_fct = FocalLoss(weight=self.loss_weights, gamma=1.5) #manière clean d'implémenter les poids?
+        elif labels is not None and loss == 'focal':
+            loss_fct = FocalLoss(weight=self.loss_weights, gamma=1.5) #manière plus propre d'implémenter les poids?
             loss = loss_fct(
                 logits.view(-1, self.num_labels), labels.view(-1, self.num_labels) 
         )
