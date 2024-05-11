@@ -12,4 +12,5 @@ wget -nc -O "${current_directory}/data/ECPred40_valid.json" "https://minio.lab.s
 wget -nc -O "${current_directory}/data/ECPred40_test.json" "https://minio.lab.sspcloud.fr/gamer35/KEGG_db/Deep_EC_datasets/ECPred40_test.json"
 
 
-pip install polars pandas scikit-learn
+pip install polars pandas scikit-learn transformers datasets
+pip install accelerate -U

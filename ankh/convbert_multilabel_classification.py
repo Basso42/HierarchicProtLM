@@ -17,7 +17,7 @@ class ConvBertForMultiLabelClassification(layers.BaseModule):
         dropout: float = 0.2,
         pooling: str = 'max',
         loss: str = 'BCE',
-        weights  = None#tensor
+        weights  = None #tensor
     ):
         super(ConvBertForMultiLabelClassification, self).__init__(
             input_dim=input_dim,
@@ -41,6 +41,7 @@ class ConvBertForMultiLabelClassification(layers.BaseModule):
                 kernel_size: Integer specifying the filter size for the `ConvBert` model. Default: 7
                 dropout: Float specifying the dropout rate for the `ConvBert` model. Default: 0.2
                 loss: String specifying the loss of the model.
+                weights: Tensor specifying the weights associated with each of the label. (inverse class frequency)
         """
 
         self.model_type = "Transformer"
@@ -71,6 +72,9 @@ class ConvBertForMultiLabelClassification(layers.BaseModule):
 
     def forward(self, embed, labels=None):
         hidden_inputs = self.convbert_forward(embed)
+        """
+        Convbert_forward prend en entrée des embeddings générés par la série d'encodeurs Transformers
+        """
         hidden_inputs = self.pooling(hidden_inputs)
         logits = self.decoder(hidden_inputs)
         loss = self._compute_loss(logits, labels)

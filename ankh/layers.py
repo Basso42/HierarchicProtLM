@@ -61,7 +61,7 @@ class BaseModule(nn.Module):
         super().__init__()
 
         self.model_type = "Transformer"
-        encoder_layers_Config = c_bert.ConvBertConfig(
+        encoder_layers_Config = c_bert.ConvBertConfig( #ConvBERT 
             hidden_size=input_dim,
             num_attention_heads=nhead,
             intermediate_size=hidden_dim,
