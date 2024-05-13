@@ -70,6 +70,9 @@ class BaseModule(nn.Module):
             hidden_dropout_prob=dropout,
         )
 
+       """
+       Question: Do these encoder layers embed the first sequence?
+       """
         self.transformer_encoder = nn.ModuleList(
             [c_bert.ConvBertLayer(encoder_layers_Config) for _ in range(num_layers)]
         )
